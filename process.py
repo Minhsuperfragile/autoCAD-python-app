@@ -157,4 +157,4 @@ class Utils():
         
 if __name__ == "__main__":
     # txt2xlsx("G:\\Code\\Python\\autoCAD\\text-file\\TEST.txt","TEST.xlsx")
-    xlsx2txt("G:\\Code\\Python\\autoCAD\\text-file\\TEST.xlsx","G:\\Code\\Python\\autoCAD\\text-file\\TEST-2.txt",3,216)
+    Utils.xlsx2txt("G:\\Code\\Python\\autoCAD\\text-file\\TEST.xlsx","G:\\Code\\Python\\autoCAD\\text-file\\TEST-2.txt",3,216)
