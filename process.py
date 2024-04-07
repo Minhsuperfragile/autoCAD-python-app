@@ -113,13 +113,13 @@ class Utils():
         """
         Return full path of parent directory of the given file
         """
-        return path[:-len(path.split('\\')[-1])]
+        return path[:-len(path.split('/')[-1])]
 
     @staticmethod
-    def txt2xlsx(input:str, output:str): #convert text file to xlsx
+    def txt2xlsx(input:str, output:str, separator:str = ","): #convert text file to xlsx
         
         savePath = Utils.getPath(input) + output
-
+        print(savePath)
         wb = Workbook()
         ws = wb.active
 
@@ -127,7 +127,7 @@ class Utils():
             lines = inputf.readlines()
             row = 1
             for line in lines:
-                info = line.split("@")
+                info = line.split(separator)
                 for col in range(1,len(info)+1):
                     try:
                         ws.cell(row,col).value = float(info[col-1])
@@ -145,16 +145,17 @@ class Utils():
         wb = load_workbook(path)
         ws = wb.active
         
+        output = Utils.getPath(path) + output
         for r in range(sizeRow):
             line = ""
             try:
                 for c in range(sizeCol):
-                    line += str(round(ws.cell(r+1,c+1).value,2)) + "@"
+                    line += str(round(ws.cell(r+1,c+1).value,2)) + ","
                 with open(output,'a') as f:
                     f.write(line[:-1]+"\n")
             except TypeError:
                 continue
         
-if __name__ == "__main__":
-    # txt2xlsx("G:\\Code\\Python\\autoCAD\\text-file\\TEST.txt","TEST.xlsx")
-    Utils.xlsx2txt("G:\\Code\\Python\\autoCAD\\text-file\\TEST.xlsx","G:\\Code\\Python\\autoCAD\\text-file\\TEST-2.txt",3,216)
+# if __name__ == "__main__":
+    # Utils.txt2xlsx("G:\\Code\\Python\\autoCAD\\text-file\\TEST.txt","TEST.xlsx")
+    # Utils.xlsx2txt("G:\\Code\\Python\\autoCAD\\text-file\\TEST.xlsx","TEST-2.txt",3,216)

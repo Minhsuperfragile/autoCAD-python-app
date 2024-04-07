@@ -1,9 +1,3 @@
-ll = [0,1,2,3,4,5]
-print(ll)
-
-def popLL(p:list) -> None:
-
-    ll.pop(3)
-
-popLL(ll)
-print(ll)
+import pandas as pd
+df = pd.read_csv("G:\\Code\\Python\\autoCAD\\text-file\\TEST.csv")
+print(df.to_string())
