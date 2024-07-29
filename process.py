@@ -1,5 +1,6 @@
 from math import sqrt
 from openpyxl import Workbook,load_workbook
+import numpy as np
 
 class Point3d():
     _x:float
@@ -35,6 +36,9 @@ class Point3d():
         y = self._y + vector.getY() 
         z = self._z + vector.getZ()
         return Point3d(x,y,z)
+    
+    def to_numpy(self) -> np.ndarray:
+        return np.array([self._x,self._y,self._z])
     
     @staticmethod
     def getPointsInput(path:str) -> list['Point3d']:
@@ -156,13 +160,47 @@ class Utils():
             except TypeError:
                 continue
     @staticmethod
-    def sortPoint(points:list, start:Point3d = None  ) -> None:
+    def sortPoint(points:list, start:Point3d = None  ) -> list['Point3d']:
+        """
+        Take a list of points and sort it with smallest distance from a point to the next
+        """
         if start == None: 
             start = points[0]
+            points.pop(0)
         
-        
-        
-        return None   
-# if __name__ == "__main__":
-    # Utils.txt2xlsx("G:\\Code\\Python\\autoCAD\\text-file\\TEST.txt","TEST.xlsx")
-    # Utils.xlsx2txt("G:\\Code\\Python\\autoCAD\\text-file\\TEST.xlsx","TEST-2.txt",3,216)
+        newPoints:list = [start]
+        while len(points) > 0:
+            mindist:float = np.Inf
+            mindex = 0
+
+            for i,point in enumerate(points):
+                dist = start.distance2dTo(point)
+                if dist < mindist:
+                    mindist = dist
+                    mindex = i
+
+            start = points[mindex]
+            newPoints.append(start)
+            points.pop(mindex)
+        return newPoints   
+    
+
+if __name__ == "__main__":
+    pps = []
+    with open("C:\\Users\\trong\\OneDrive\\Máy tính\\test.txt", "r") as file:
+        lines = file.readlines()
+        for line in lines:
+            line = line.split(",")
+            pps.append(Point3d(float(line[1]),float(line[2]),float(line[3])))
+    
+    sorted = Utils.sortPoint(pps)
+    # print(sorted)
+
+    with open("cotbenphai.csv", "w") as file:
+        for i,p in enumerate(sorted):
+            if i == 0:
+                dist=0
+            else:
+                dist = p.distance3dTo(sorted[i-1])
+            content = f'{p.getZ()},{dist}\n'
+            file.write(content)
