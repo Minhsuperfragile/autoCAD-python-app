@@ -155,7 +155,14 @@ class Utils():
                     f.write(line[:-1]+"\n")
             except TypeError:
                 continue
+    @staticmethod
+    def sortPoint(points:list, start:Point3d = None  ) -> None:
+        if start == None: 
+            start = points[0]
         
+        
+        
+        return None   
 # if __name__ == "__main__":
     # Utils.txt2xlsx("G:\\Code\\Python\\autoCAD\\text-file\\TEST.txt","TEST.xlsx")
     # Utils.xlsx2txt("G:\\Code\\Python\\autoCAD\\text-file\\TEST.xlsx","TEST-2.txt",3,216)
